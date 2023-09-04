@@ -7,12 +7,7 @@ using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
 using NLayer.Service.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NLayer.Caching
 {
@@ -29,7 +24,7 @@ namespace NLayer.Caching
             _repository = repository;
             _unitOfWork = unitOfWork;
             _memoryCache = memoryCache;
-            if(!memoryCache.TryGetValue(CacheProductKey,out _)) 
+            if (!memoryCache.TryGetValue(CacheProductKey, out _))
             {
                 _memoryCache.Set(CacheProductKey, _repository.GetProductsWithCategory().Result);
             }
@@ -81,11 +76,11 @@ namespace NLayer.Caching
             return Task.FromResult(product);
         }
 
-        public  Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
+        public Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
         {
             var products = _memoryCache.Get<IEnumerable<Product>>(CacheProductKey);
 
-            var productWithCategoryDto =_mapper.Map<List<ProductWithCategoryDto>>(products);
+            var productWithCategoryDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
             return Task.FromResult(productWithCategoryDto);
         }
 
