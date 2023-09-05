@@ -6,7 +6,9 @@ using NLayer.Repository;
 using NLayer.Service.Mapping;
 using NLayer.Service.Validations;
 using NLayer.Web.Modules;
+using NLayer.Web.Services;
 using System.Reflection;
+using System.Security.Policy;
 
 namespace NLayer.Web
 {
@@ -29,7 +31,19 @@ namespace NLayer.Web
                 });
 
             });
+
+            builder.Services.AddHttpClient<CategoryApiService>(opt =>
+            {
+                opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+            });
+            builder.Services.AddHttpClient<ProductApiService>(opt =>
+            {
+                opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+            });
+
             builder.Services.AddScoped(typeof(NotFoundFilter<>));
+
+            
 
             builder.Host.UseServiceProviderFactory
                 (new AutofacServiceProviderFactory());
