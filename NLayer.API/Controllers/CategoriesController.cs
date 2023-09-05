@@ -22,8 +22,11 @@ namespace NLayer.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+
             var categories = await _categoryService.GetAllAsync();
+
             var categoriesDto = _mapper.Map<List<CategoryDto>>(categories.ToList());
+
             return CreateActionResult(CustomResponseDto<List<CategoryDto>>.Success(200, categoriesDto));
 
         }
